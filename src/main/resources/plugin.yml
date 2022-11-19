@@ -1,0 +1,4 @@
+name: RPGItems
+main: com.aoideveloper.rpg_items.RPGItems
+version: 1.0
+api-version: 1.16
