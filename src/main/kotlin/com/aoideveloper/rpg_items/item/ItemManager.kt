@@ -100,5 +100,9 @@ object ItemManager {
             val itemInfo = ItemInfo(itemId, itemName ?: "物体 X", itemLore, itemMaterial, itemClicked, recipe)
             itemInfoList[itemId] = itemInfo
         }
+        Logger.broadcastMessageToOP("${ChatColor.GREEN}[RPGItems] 計${itemInfoList.size}個のアイテムを読み込みました。")
+        itemInfoList.forEach {
+            Logger.broadcastMessageToOP("${ChatColor.GREEN}[RPGItems] ID:${it.value.id} ${it.value.name}")
+        }
     }
 }
