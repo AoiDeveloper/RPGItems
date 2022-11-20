@@ -7,11 +7,7 @@ import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.configuration.file.YamlConfiguration
-import org.bukkit.event.EventHandler
-import org.bukkit.event.Listener
-import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.ShapedRecipe
-import org.bukkit.persistence.PersistentDataType
 import java.io.File
 
 object ItemManager {

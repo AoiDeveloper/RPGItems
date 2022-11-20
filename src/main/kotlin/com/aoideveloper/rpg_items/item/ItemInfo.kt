@@ -4,6 +4,15 @@ import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.inventory.ShapedRecipe
 
+/**
+ * @param id アイテムのID Unique
+ * @param name アイテムのdisplayName
+ * @param lore アイテムのlore
+ * @param material アイテムの見かけ
+ * @param execute 右クリックされた際に実行されるコマンド
+ * @param recipe クラフトレシピ
+ *
+ */
 data class ItemInfo(val id: String, val name: String, val lore: List<String>?, val material: Material, val execute: List<String>?, val recipe: ShapedRecipe?) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

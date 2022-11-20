@@ -8,11 +8,14 @@ import org.bukkit.event.Listener
 import org.bukkit.event.inventory.CraftItemEvent
 import org.bukkit.persistence.PersistentDataType
 
+/**
+ * クラフトでのアイテム生成時、効果音を鳴らします。
+ */
 class CraftEvent: Listener {
     @EventHandler
     fun onCraft(event: CraftItemEvent) {
         if(event.currentItem?.itemMeta?.persistentDataContainer?.has(NamespacedKey(RPGItems.plugin, "rpgItemID"), PersistentDataType.STRING) == true) {
-            event.whoClicked.world.playSound(event.whoClicked.location, Sound.ENTITY_PLAYER_LEVELUP, 1f, 1.5f);
+            event.whoClicked.world.playSound(event.whoClicked.location, Sound.ENTITY_PLAYER_LEVELUP, 1f, 1.5f)
         }
     }
 }

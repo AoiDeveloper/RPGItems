@@ -10,6 +10,9 @@ import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.persistence.PersistentDataType
 
+/**
+ * 右クリック時、アイテム独自のコマンドを実行します。
+ */
 class ClickEvent: Listener {
     @EventHandler
     fun onRightClickItem(event: PlayerInteractEvent) {
