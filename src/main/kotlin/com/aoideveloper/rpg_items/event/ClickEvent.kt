@@ -10,6 +10,9 @@ import org.bukkit.event.block.Action
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.persistence.PersistentDataType
 
+/**
+ * 右クリック時、アイテム独自のコマンドを実行します。
+ */
 class ClickEvent: Listener {
     @EventHandler
     fun onRightClickItem(event: PlayerInteractEvent) {
@@ -19,8 +22,10 @@ class ClickEvent: Listener {
             event.player.sendMessage("そのアイテムは現在使用できません。")
         } else {
             if(ItemManager.itemInfoList[itemId]!!.execute != null) {
-                val command = ItemManager.itemInfoList[itemId]!!.execute!!
-                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "execute as ${event.player.name} at ${event.player.name} run $command")
+                val commands = ItemManager.itemInfoList[itemId]!!.execute!!
+                commands.forEach {
+                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "execute as ${event.player.name} at ${event.player.name} run $it")
+                }
             }
         }
     }

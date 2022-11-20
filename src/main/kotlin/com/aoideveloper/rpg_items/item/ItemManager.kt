@@ -7,11 +7,7 @@ import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.configuration.file.YamlConfiguration
-import org.bukkit.event.EventHandler
-import org.bukkit.event.Listener
-import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.ShapedRecipe
-import org.bukkit.persistence.PersistentDataType
 import java.io.File
 
 object ItemManager {
@@ -26,14 +22,14 @@ object ItemManager {
         if(!itemConfigFolder.exists()) return
         itemInfoList = mutableMapOf()
         // プラグインのdataFolder/item下のフォルダを再帰的に列挙する
-        itemConfigFolder.walkBottomUp().filter{ it.isFile }.filter{ it.extension == "yml" || it.extension == "yaml"}.forEach { fileName ->
+        itemConfigFolder.walkBottomUp().filter{ it.isFile }.filter{ (it.extension == "yml" || it.extension == "yaml") && !it.name.startsWith("-")}.forEach { fileName ->
             val itemConfig = YamlConfiguration.loadConfiguration(fileName)
 
             val itemId = itemConfig.getString("id")
             val itemName = itemConfig.getString("name")
             val itemLore = itemConfig.getStringList("lore")
             val itemMaterialName = itemConfig.getString("material")
-            val itemClicked = itemConfig.getString("execute")
+            val itemClicked = itemConfig.getStringList("execute")
             // recipeMapはrecipeShape上の記号と素材の対応付けを表す
             val recipeMap = itemConfig.getConfigurationSection("recipe.mapping")?.getKeys(false)?.associate {
                 it to itemConfig.getString("recipe.mapping.$it")
