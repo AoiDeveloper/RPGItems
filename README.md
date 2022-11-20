@@ -3,6 +3,53 @@ RPGで使えるアイテムを作製するプラグインです。ymlでアイ�
 
 注意:他のレシピ追加プラグインと競合する可能性があります。その場合は、plugin.ymlのaddRecipesをオフにしてください。
 ### ymlファイルの書き方
+まず例を2つ掲載します。
+```yaml
+id: 0
+name: §l§gStepping Stone
+material: DIAMOND
+execute:
+  - setblock ~-1 ~-1 ~-1 glass
+  - setblock ~-1 ~-1 ~ glass
+  - setblock ~-1 ~-1 ~1 glass
+  - setblock ~ ~-1 ~-1 glass
+  - setblock ~ ~-1 ~ glass
+  - setblock ~ ~-1 ~1 glass
+  - setblock ~1 ~-1 ~-1 glass
+  - setblock ~1 ~-1 ~ glass
+  - setblock ~1 ~-1 ~1 glass
+  - particle minecraft:bubble_pop ~ ~ ~ 1 1 1 0 100 force @a
+  - playsound minecraft:item.armor.equip_chain player @p
+lore:
+  - §3そらもとべるはず
+recipe:
+    mapping:
+        D: DIAMOND
+        G: GOLD_INGOT
+    shape:
+      - " D "
+      - "DGD"
+      - " D "
+```
+```yaml
+id: 1
+name: 守護石
+material: IRON_INGOT
+execute: 
+  - effect give @p minecraft:regeneration 1 10
+  - effect give @p minecraft:resistance 1 10
+lore:
+  - カチカチの石
+  - ここぞというときにつかおう
+recipe:
+    mapping:
+        S: STONE
+        D: DIAMOND
+    shape:
+        - "SSS"
+        - "SDS"
+        - "SSS"
+```
 ハイフン(-)から始まるファイルは無視されます。そのほかファイル名はなんでも良いですが、英数字を使用することを推奨します。そうでない場合、環境によってはゲーム内の表示が崩れる可能性があります。
 * 内部ID
 * アイテム名
@@ -26,7 +73,14 @@ lore:
 `material: <素材名: String>`とかけます。例えば、`material: STICK`などです。どのアイテムがどの素材名と対応しているかは、以下を参照してください。
 https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/Material.html
 #### 右クリック時に発動させるコマンド
-`execute: <コマンド: String>`とかけます。実行者はアイテムを持っているプレイヤーです。op権限は無視してなんでも実行されるので気をつけてください。
+```yaml
+execute:
+  - コマンド1
+  - コマンド2
+  - コマンド3
+```
+とかけます。実行者はアイテムを持っているプレイヤーです。op権限は無視してなんでも実行されるので気をつけてください。
+プラグイン側ではコマンドが成功したかどうかは判定しないので、デバッグの際は慎重に行ってください。
 #### レシピ
 クラフトレシピを設定することができます。
 書式は少し複雑ですが、

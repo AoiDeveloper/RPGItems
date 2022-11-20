@@ -1,9 +1,10 @@
 package com.aoideveloper.rpg_items.item
 
+import org.bukkit.ChatColor
 import org.bukkit.Material
 import org.bukkit.inventory.ShapedRecipe
 
-data class ItemInfo(val id: String, val name: String, val lore: List<String>?, val material: Material, val execute: String?, val recipe: ShapedRecipe?) {
+data class ItemInfo(val id: String, val name: String, val lore: List<String>?, val material: Material, val execute: List<String>?, val recipe: ShapedRecipe?) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -22,14 +23,14 @@ data class ItemInfo(val id: String, val name: String, val lore: List<String>?, v
 
     fun description():String {
         return """
-            【アイテム名】
-            $name
-            【説明文】
-            $lore
-            【見た目】
-            $material
-            【実行されるコマンド】
-            $execute
-        """.trimIndent()
+            |${ChatColor.RESET}${ChatColor.GRAY}【アイテム名】
+            |$name
+            |${ChatColor.RESET}${ChatColor.GRAY}【説明文】
+            |${lore?.joinToString("\n") ?: "なし"}
+            |${ChatColor.RESET}${ChatColor.GRAY}【見た目】
+            |$material
+            |${ChatColor.RESET}${ChatColor.GRAY}【実行されるコマンド】
+            |${execute?.joinToString("\n") ?: "なし"}
+        """.trimMargin()
     }
 }

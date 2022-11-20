@@ -19,8 +19,10 @@ class ClickEvent: Listener {
             event.player.sendMessage("そのアイテムは現在使用できません。")
         } else {
             if(ItemManager.itemInfoList[itemId]!!.execute != null) {
-                val command = ItemManager.itemInfoList[itemId]!!.execute!!
-                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "execute as ${event.player.name} at ${event.player.name} run $command")
+                val commands = ItemManager.itemInfoList[itemId]!!.execute!!
+                commands.forEach {
+                    Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "execute as ${event.player.name} at ${event.player.name} run $it")
+                }
             }
         }
     }
