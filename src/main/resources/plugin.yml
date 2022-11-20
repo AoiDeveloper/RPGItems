@@ -2,3 +2,10 @@ name: RPGItems
 main: com.aoideveloper.rpg_items.RPGItems
 version: 1.0
 api-version: 1.16
+commands:
+  rpgitems:
+    description: RPG Itemsについてのコマンドを実行できます。
+    usage: |
+        /rpgitems give <player> <itemId> プレイヤーにアイテムを与えます。
+        /rpgitems descript <itemId> アイテムの説明を表示します。
+        /rpgitems reload アイテムの設定をリロードします。
