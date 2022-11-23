@@ -14,13 +14,16 @@ class RPGItems: JavaPlugin() {
     }
 
     override fun onEnable() {
-        println("run")
         plugin = this
 
-        getCommand("rpgitems")?.setExecutor(RPGItemCommand())
-        getCommand("rpgitems")?.tabCompleter = RPGItemCommandTabCompleter()
+        getCommand("rpgitems")?.apply {
+            setExecutor(RPGItemCommand())
+            tabCompleter = RPGItemCommandTabCompleter()
+        }
+
         server.pluginManager.registerEvents(ClickEvent(), this)
         server.pluginManager.registerEvents(CraftEvent(), this)
+
         dataFolder.mkdir()
         ItemManager.loadItemInfo()
     }

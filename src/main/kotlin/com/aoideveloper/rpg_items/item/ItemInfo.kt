@@ -11,7 +11,6 @@ import org.bukkit.inventory.ShapedRecipe
  * @param material アイテムの見かけ
  * @param execute 右クリックされた際に実行されるコマンド
  * @param recipe クラフトレシピ
- *
  */
 data class ItemInfo(val id: String, val name: String, val lore: List<String>?, val material: Material, val execute: List<String>?, val recipe: ShapedRecipe?) {
     override fun equals(other: Any?): Boolean {

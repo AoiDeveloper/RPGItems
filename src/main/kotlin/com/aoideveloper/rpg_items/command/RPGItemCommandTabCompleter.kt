@@ -11,10 +11,12 @@ class RPGItemCommandTabCompleter: TabCompleter {
         when(args.size) {
             1 -> return mutableListOf("give", "descript", "reload")
             2 -> {
-                if(args[0] == "give") return Bukkit.getServer().onlinePlayers.map{it.name}.toMutableList()
-                if(args[0] == "descript") return ItemManager.itemInfoList.map{it.value.id}.toMutableList()
-                if(args[0] == "reload") return mutableListOf()
-                return mutableListOf()
+                when(args[0]) {
+                    "give" -> return Bukkit.getServer().onlinePlayers.map{it.name}.toMutableList()
+                    "descript" -> return ItemManager.itemInfoList.map{it.value.id}.toMutableList()
+                    "reload" -> return mutableListOf()
+                    else -> return mutableListOf()
+                }
             }
             3 -> {
                 return ItemManager.itemInfoList.map{it.value.id}.toMutableList()

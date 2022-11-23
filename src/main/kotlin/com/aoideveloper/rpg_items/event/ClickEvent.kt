@@ -11,7 +11,7 @@ import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.persistence.PersistentDataType
 
 /**
- * 右クリック時、アイテム独自のコマンドを実行します。
+ * RPGアイテムの右クリック時、独自のコマンドを実行します。
  */
 class ClickEvent: Listener {
     @EventHandler
@@ -24,6 +24,10 @@ class ClickEvent: Listener {
             if(ItemManager.itemInfoList[itemId]!!.execute != null) {
                 val commands = ItemManager.itemInfoList[itemId]!!.execute!!
                 commands.forEach {
+                    if(it == "delete") {
+                        event.player.inventory.itemInMainHand.amount--
+                        return@forEach
+                    }
                     Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "execute as ${event.player.name} at ${event.player.name} run $it")
                 }
             }
