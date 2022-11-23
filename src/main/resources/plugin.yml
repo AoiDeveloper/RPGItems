@@ -4,9 +4,9 @@ version: 1.0
 api-version: 1.16
 commands:
   rpgitems:
-    description: RPG Itemsについてのコマンドを実行できます。
+    description: RPG Itemsについてのコマンドを実行できます。ヘルプ https://github.com/AoiDeveloper/RPGItems
     usage: |
-        /<command> give <player> <itemId> プレイヤーにアイテムを与えます。
+        /<command> give <player> <itemId> <amount?> プレイヤーにアイテムを与えます。個数(amount)は指定しなくてもかまいません。
         /<command> descript <itemId> アイテムの説明を表示します。
         /<command> reload アイテムの設定をリロードします。
     permission: op

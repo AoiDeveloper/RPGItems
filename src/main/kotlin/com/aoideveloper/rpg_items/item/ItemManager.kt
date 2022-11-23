@@ -16,13 +16,15 @@ object ItemManager {
         File(RPGItems.plugin.dataFolder, "item")
     }
     /**
-     * Load item information from config files, and register its recipes.
+     * Load items information from config files, and register its recipes.
      */
     fun loadItemInfo() {
         if(!itemConfigFolder.exists()) return
         itemInfoList = mutableMapOf()
         // プラグインのdataFolder/item下のフォルダを再帰的に列挙する
-        itemConfigFolder.walkBottomUp().filter{ it.isFile }.filter{ (it.extension == "yml" || it.extension == "yaml") && !it.name.startsWith("-")}.forEach { fileName ->
+        itemConfigFolder.walkBottomUp().filter{ it.isFile }.filter{
+            (it.extension == "yml" || it.extension == "yaml") && !it.name.startsWith("-")
+        }.forEach { fileName ->
             val itemConfig = YamlConfiguration.loadConfiguration(fileName)
 
             val itemId = itemConfig.getString("id")
@@ -30,6 +32,7 @@ object ItemManager {
             val itemLore = itemConfig.getStringList("lore")
             val itemMaterialName = itemConfig.getString("material")
             val itemClicked = itemConfig.getStringList("execute")
+
             // recipeMapはrecipeShape上の記号と素材の対応付けを表す
             val recipeMap = itemConfig.getConfigurationSection("recipe.mapping")?.getKeys(false)?.associate {
                 it to itemConfig.getString("recipe.mapping.$it")
@@ -64,17 +67,18 @@ object ItemManager {
                 return@forEach
             }
 
-            val item = RPGItemFactory.generateItem(ItemInfo(itemId, itemName ?: "物体 X", itemLore, itemMaterial, itemClicked, null))
+            val item = RPGItemFactory.generateItem(ItemInfo(itemId, itemName ?: "名称不明", itemLore, itemMaterial, itemClicked, null))
             val recipe = ShapedRecipe(NamespacedKey(RPGItems.plugin, itemId), item)
 
-            // 今回は作業台のクラフトのみ対応するので、縦幅が3 横幅は特に指定しない
+            // 今回は作業台のクラフトのみ対応するので、レシピの縦幅が3 横幅も3である必要がある
             if(recipeShape.size == 3) {
                 var isValidRecipe = true
+
                 if(recipeShape.any { it.length != 3 }) {
                     Logger.broadcastMessageToOP("${ChatColor.RED}[RPGItems] 読み込み中にレシピが不正なアイテムが見つかりました。レシピは3行3列で指定してください。")
                     Logger.broadcastMessageToOP("${ChatColor.RED}[RPGItems] ファイル名: $fileName")
                 } else {
-                    recipe.shape(recipeShape[0], recipeShape[1], recipeShape[2])
+                    recipe.shape(recipeShape[0], recipeShape[1], recipeShape[2]) // アイテムの形を登録する
                     recipeMap?.forEach recipeMap@{
                         if (it.value == null) return@recipeMap
                         if (it.key.length != 1) {
@@ -89,20 +93,22 @@ object ItemManager {
                             isValidRecipe = false
                             return@recipeMap
                         }
-                        recipe.setIngredient(it.key[0], Material.getMaterial(it.value!!)!!)
+                        recipe.setIngredient(it.key[0], Material.getMaterial(it.value!!)!!) // 記号に対応するマテリアルを登録する。 例: 'S' -> Material.STICK
                     }
                     if (isValidRecipe) Bukkit.addRecipe(recipe)
                 }
             } else if (recipeShape.size != 0) {
                 Logger.broadcastMessageToOP("${ChatColor.RED}[RPGItems] 読み込み中にレシピが不正なアイテムが見つかりました。レシピは3行3列で指定してください。")
                 Logger.broadcastMessageToOP("${ChatColor.RED}[RPGItems] ファイル名: $fileName")
-            }
-            val itemInfo = ItemInfo(itemId, itemName ?: "物体 X", itemLore, itemMaterial, itemClicked, recipe)
+            } // レシピのサイズが0である場合、レシピが登録されていないので無視する
+
+            val itemInfo = ItemInfo(itemId, itemName ?: "名称不明", itemLore, itemMaterial, itemClicked, recipe)
             itemInfoList[itemId] = itemInfo
         }
         Logger.broadcastMessageToOP("${ChatColor.GREEN}[RPGItems] 計${itemInfoList.size}個のアイテムを読み込みました。")
+
         itemInfoList.forEach {
             Logger.broadcastMessageToOP("${ChatColor.GREEN}[RPGItems] ID:${it.value.id} ${it.value.name}")
-        }
+        } // 登録したアイテムの一覧表示
     }
 }
